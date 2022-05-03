@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_03_204555) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_03_212854) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -43,6 +43,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_03_204555) do
     t.index ["device_category_id"], name: "index_devices_on_device_category_id"
   end
 
+  create_table "friendships", force: :cascade do |t|
+    t.bigint "requester_id", null: false
+    t.bigint "requestee_id", null: false
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["requestee_id"], name: "index_friendships_on_requestee_id"
+    t.index ["requester_id"], name: "index_friendships_on_requester_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.decimal "weight"
     t.decimal "height"
@@ -61,4 +71,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_03_204555) do
   add_foreign_key "device_data", "devices"
   add_foreign_key "device_data", "users"
   add_foreign_key "devices", "device_categories"
+  add_foreign_key "friendships", "users", column: "requestee_id"
+  add_foreign_key "friendships", "users", column: "requester_id"
 end

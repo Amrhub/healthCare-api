@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :friendships
   resources :device_data
   resources :devices
   resources :device_categories
