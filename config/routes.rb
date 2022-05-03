@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :patients
   resources :likes
   resources :comments
   resources :posts
