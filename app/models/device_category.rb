@@ -1,0 +1,2 @@
+class DeviceCategory < ApplicationRecord
+end
