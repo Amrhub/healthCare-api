@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :likes
+  resources :comments
   resources :posts
   resources :friendships
   resources :device_data
