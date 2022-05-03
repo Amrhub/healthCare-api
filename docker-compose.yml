@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+  ruby_dev:
+    build: .
+    network_mode: host
+    container_name: ruby_container
+    volumes:
+      - ./:/home/app
+
+  db:
+    image: postgres
+    restart: always
+    network_mode: host
+    environment:
+      POSTGRES_PASSWORD: admin123
+
+  adminer:
+    image: adminer
+    network_mode: host
+    restart: always
