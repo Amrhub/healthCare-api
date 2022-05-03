@@ -29,6 +29,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_03_204555) do
     t.integer "heart_rate"
     t.float "temperature"
     t.float "gps", default: [], array: true
+    t.bigint "ecg", default: [], array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["device_id"], name: "index_device_data_on_device_id"
