@@ -6,6 +6,7 @@ class CreateDeviceData < ActiveRecord::Migration[7.0]
       t.float :spo2
       t.integer :heart_rate
       t.float :temperature
+      t.float :gps, array: true, default: []
 
       t.timestamps
     end
