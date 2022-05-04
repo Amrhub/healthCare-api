@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_03_223853) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_04_211857) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -34,7 +34,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_03_223853) do
 
   create_table "device_data", force: :cascade do |t|
     t.bigint "device_id", null: false
-    t.bigint "user_id", null: false
     t.float "spo2"
     t.integer "heart_rate"
     t.float "temperature"
@@ -43,14 +42,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_03_223853) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["device_id"], name: "index_device_data_on_device_id"
-    t.index ["user_id"], name: "index_device_data_on_user_id"
   end
 
   create_table "devices", force: :cascade do |t|
     t.bigint "device_category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "patient_id"
     t.index ["device_category_id"], name: "index_devices_on_device_category_id"
+    t.index ["patient_id"], name: "index_devices_on_patient_id"
   end
 
   create_table "doctors", force: :cascade do |t|
@@ -78,6 +78,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_03_223853) do
     t.datetime "updated_at", null: false
     t.index ["post_id"], name: "index_likes_on_post_id"
     t.index ["user_id"], name: "index_likes_on_user_id"
+  end
+
+  create_table "observations", force: :cascade do |t|
+    t.bigint "patient_id", null: false
+    t.bigint "doctor_id", null: false
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["doctor_id"], name: "index_observations_on_doctor_id"
+    t.index ["patient_id"], name: "index_observations_on_patient_id"
   end
 
   create_table "patients", force: :cascade do |t|
@@ -116,11 +126,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_03_223853) do
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
   add_foreign_key "device_data", "devices"
-  add_foreign_key "device_data", "users"
   add_foreign_key "devices", "device_categories"
+  add_foreign_key "devices", "patients"
   add_foreign_key "friendships", "users", column: "requestee_id"
   add_foreign_key "friendships", "users", column: "requester_id"
   add_foreign_key "likes", "posts"
   add_foreign_key "likes", "users"
+  add_foreign_key "observations", "doctors"
+  add_foreign_key "observations", "patients"
   add_foreign_key "posts", "users"
 end
