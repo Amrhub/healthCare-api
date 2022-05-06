@@ -4,6 +4,6 @@ class Post < ApplicationRecord
   has_many :likes, dependent: :destroy
 
   def recent_posts
-    Post.order(created_at: :desc).limit(3)  
+    Post.order(created_at: :desc).limit(3)
   end
 end

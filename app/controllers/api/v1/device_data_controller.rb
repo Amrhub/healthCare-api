@@ -1,5 +1,5 @@
 class DeviceDataController < ApplicationController
-  before_action :set_device_datum, only: %i[ show update destroy ]
+  before_action :set_device_datum, only: %i[show update destroy]
 
   # GET /device_data
   def index
@@ -39,13 +39,14 @@ class DeviceDataController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_device_datum
-      @device_datum = DeviceDatum.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def device_datum_params
-      params.require(:device_datum).permit(:device_id, :user_id, :spo2, :heart_rate, :temperature)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_device_datum
+    @device_datum = DeviceDatum.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def device_datum_params
+    params.require(:device_datum).permit(:device_id, :user_id, :spo2, :heart_rate, :temperature)
+  end
 end

@@ -1,5 +1,5 @@
 class DeviceCategoriesController < ApplicationController
-  before_action :set_device_category, only: %i[ show update destroy ]
+  before_action :set_device_category, only: %i[show update destroy]
 
   # GET /device_categories
   def index
@@ -39,13 +39,14 @@ class DeviceCategoriesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_device_category
-      @device_category = DeviceCategory.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def device_category_params
-      params.require(:device_category).permit(:device_name, :price, :device_items)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_device_category
+    @device_category = DeviceCategory.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def device_category_params
+    params.require(:device_category).permit(:device_name, :price, :device_items)
+  end
 end
