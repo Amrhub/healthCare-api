@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   # root "articles#index"
   namespace :api do
     namespace :v1 do
+      get 'device_data/show_avg_hourly_data' => 'device_data#show_avg_hourly_data'
       resources :observations
       resources :doctors
       resources :patients
