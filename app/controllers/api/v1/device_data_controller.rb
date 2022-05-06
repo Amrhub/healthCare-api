@@ -7,20 +7,21 @@ class Api::V1::DeviceDataController < ApplicationController
 
     render json: @device_data
   end
-  
+
   # GET /device_data/1
   def show
     render json: @device_datum
   end
 
   def show_last_minute_ecg_data
-    @device_data = DeviceDatum.where(device_id: params[:device_id]).last(60) # 60 is because we save data from device to back-end each second
+    # 60 is because we save data from device to back-end each second
+    @device_data = DeviceDatum.where(device_id: params[:device_id]).last(60)
   end
 
   def show_avg_hourly_data
     @device_data = []
-    @device_data_day = DeviceDatum.order(:created_at).group_by { |t| t.created_at.strftime("%Y-%m-%d") }
-    
+    @device_data_day = DeviceDatum.order(:created_at).group_by { |t| t.created_at.strftime('%Y-%m-%d') }
+
     get_average_hourly_data(@device_data_day)
 
     render json: @device_data
@@ -67,27 +68,23 @@ class Api::V1::DeviceDataController < ApplicationController
     device_data_day.each do |date, value|
       history = []
       data_history = []
-      device_data_hourly = value.group_by { |t| t.created_at.strftime("%H") }.each do |hour, data_hourly|
-        spo2_avg = 0
-        heart_rate_avg = 0
-        temperature_avg = 0
-
+      value.group_by { |t| t.created_at.strftime('%H') }.each do |hour, data_hourly|
         avg_data_per_hour = get_avg_data(data_hourly)
 
-        if hour.to_i < 12
-          if hour.to_i == 0
-            hour = "12 AM"
-          else
-            hour = "#{hour} AM"
-          end
-        else
-          hour = "#{hour.to_i - 12} PM"
-        end
-        history << {time: hour, **avg_data_per_hour}
-        data_history << {**avg_data_per_hour}
+        hour = if hour.to_i < 12
+                 if hour.to_i.zero?
+                   '12 AM'
+                 else
+                   "#{hour} AM"
+                 end
+               else
+                 "#{hour.to_i - 12} PM"
+               end
+        history << { time: hour, **avg_data_per_hour }
+        data_history << { **avg_data_per_hour }
       end
       avg_data_per_day = get_avg_data(data_history)
-      @device_data << { date: date, **avg_data_per_day ,history: history }
+      @device_data << { date:, **avg_data_per_day, history: }
     end
   end
 
@@ -96,15 +93,15 @@ class Api::V1::DeviceDataController < ApplicationController
     heart_rate_avg = 0
     temperature_avg = 0
 
-    data.each do |data|
-      spo2_avg += data[:spo2]
-      heart_rate_avg += data[:heart_rate]
-      temperature_avg += data[:temperature]
+    data.each do |value|
+      spo2_avg += value[:spo2]
+      heart_rate_avg += value[:heart_rate]
+      temperature_avg += value[:temperature]
     end
 
-    spo2_avg = spo2_avg / data.length
-    heart_rate_avg = heart_rate_avg / data.length
-    temperature_avg = temperature_avg / data.length
-    {heart_rate: heart_rate_avg, temperature: temperature_avg, spo2: spo2_avg}
+    spo2_avg /= data.length
+    heart_rate_avg /= data.length
+    temperature_avg /= data.length
+    { heart_rate: heart_rate_avg, temperature: temperature_avg, spo2: spo2_avg }
   end
 end
