@@ -1,4 +1,4 @@
-class DeviceDataController < ApplicationController
+class Api::V1::DeviceDataController < ApplicationController
   before_action :set_device_datum, only: %i[show update destroy]
 
   # GET /device_data

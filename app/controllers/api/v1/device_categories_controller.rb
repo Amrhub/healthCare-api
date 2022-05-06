@@ -1,4 +1,4 @@
-class DeviceCategoriesController < ApplicationController
+class Api::V1::DeviceCategoriesController < ApplicationController
   before_action :set_device_category, only: %i[show update destroy]
 
   # GET /device_categories

@@ -1,4 +1,4 @@
-class ObservationsController < ApplicationController
+class Api::V1::ObservationsController < ApplicationController
   before_action :set_observation, only: %i[show update destroy]
 
   # GET /observations

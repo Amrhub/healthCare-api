@@ -1,4 +1,4 @@
-class DoctorsController < ApplicationController
+class Api::V1::DoctorsController < ApplicationController
   before_action :set_doctor, only: %i[show update destroy]
 
   # GET /doctors
@@ -16,7 +16,7 @@ class DoctorsController < ApplicationController
   # POST /doctors
   def create
     @doctor = Doctor.new(doctor_params)
-
+    
     if @doctor.save
       render json: @doctor, status: :created, location: @doctor
     else

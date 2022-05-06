@@ -1,4 +1,4 @@
-class DevicesController < ApplicationController
+class Api::V1::DevicesController < ApplicationController
   before_action :set_device, only: %i[show update destroy]
 
   # GET /devices
