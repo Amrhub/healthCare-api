@@ -8,10 +8,10 @@ class User < ApplicationRecord
   has_many :posts, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
-  has_many :requester_ids, class_name: "Friendship", foreign_key: "requester_id"
-  has_many :requestee_ids, class_name: "Friendship", foreign_key: "requestee_id"
+  has_many :requester_ids, class_name: 'Friendship', foreign_key: 'requester_id'
+  has_many :requestee_ids, class_name: 'Friendship', foreign_key: 'requestee_id'
   has_one_attached :profile_pic
 
   # validations
-  validates :profile_pic, content_type: [:png, :jpg, :jpeg], size: { less_than: 5.megabytes }
+  validates :profile_pic, content_type: %i[png jpg jpeg], size: { less_than: 5.megabytes }
 end
