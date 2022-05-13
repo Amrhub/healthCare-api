@@ -15,14 +15,14 @@ class Users::SessionsController < Devise::SessionsController
 
   def destroy
     sign_out(@user)
-    render :json => { :success => true }
+    render json: { success: true }
   end
 
   private
 
   def invalid_login_attempt
     warden.custom_failure!
-    render json: { error: "invalid login attempt" }, status: :unprocessable_entity
+    render json: { error: 'invalid login attempt' }, status: :unprocessable_entity
   end
 
   def user_params
