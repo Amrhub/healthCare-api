@@ -10,7 +10,14 @@ class Api::V1::UsersController < ApplicationController
 
   # GET /users/1
   def show
-    render json: @user
+    if @user.profile_pic.attached?
+      render json: {
+        user: @user,
+        profile_pic: url_for(@user.profile_pic),
+      }
+    else
+      render json: @user
+    end
   end
 
   # POST /users
@@ -47,7 +54,7 @@ class Api::V1::UsersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :phone, :gender, :birth_date,
-                                 :age, :address, :profile_pic)
+    params.permit(:first_name, :last_name, :phone, :gender, :birth_date,
+                  :age, :address, :profile_pic)
   end
 end
