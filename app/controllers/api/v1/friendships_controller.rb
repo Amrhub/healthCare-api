@@ -1,4 +1,4 @@
-class FriendshipsController < ApplicationController
+class Api::V1::FriendshipsController < ApplicationController
   before_action :set_friendship, only: %i[show update destroy]
 
   # GET /friendships
