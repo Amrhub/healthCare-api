@@ -12,7 +12,7 @@ class MembersController < ApplicationController
   private
 
   def user_from_token
-    jwt_payload = JWT.decode(request.headers['Authorization'],
+    jwt_payload = JWT.decode(request.headers['Authorization'].split.last,
                              ENV.fetch('DEVISE_JWT_SECRET_KEY', nil))[0]
     user_id = jwt_payload['sub']
 
