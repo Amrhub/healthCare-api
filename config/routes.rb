@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
   namespace :api do
-    namespace :v1 do
+    namespace :v1, defaults: { format: :json } do
       get "device_data/show_avg_hourly_data" => "device_data#show_avg_hourly_data"
       resources :observations
       resources :doctors
