@@ -13,7 +13,7 @@ class MembersController < ApplicationController
 
   def user_from_token
     jwt_payload = JWT.decode(request.headers['Authorization'],
-                             ENV.fetch('DEVISE_JWT_SECRET_KEY', nil))[0] # He used rails credintials to create the JWT, I implemented it with figaro
+                             ENV.fetch('DEVISE_JWT_SECRET_KEY', nil))[0]
     user_id = jwt_payload['sub']
 
     User.find(user_id.to_s)
