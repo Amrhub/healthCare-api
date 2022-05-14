@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       registrations: "users/registrations",
     }
 
+  root "home#index"
   get "/member-data", to: "members#show"
   # Defines the root path route ("/")
   # root "articles#index"

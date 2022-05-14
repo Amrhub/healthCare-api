@@ -10,23 +10,19 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if resource.persisted?
       if resource.active_for_authentication?
         sign_up(resource_name, resource)
-        render json: {
-          message: "Signed up successfully",
-          user: resource,
-        }, status: :ok
       else
         expire_data_after_sign_in!
-        render json: {
-          message: "Signed up successfully",
-          user: resource,
-        }, status: :ok
       end
+      render json: {
+        message: 'Signed up successfully',
+        user: resource
+      }, status: :ok
     else
       clean_up_passwords resource
       set_minimum_password_length
       render json: {
-        message: "Failed to sign up",
-        errors: resource.errors,
+        message: 'Failed to sign up',
+        errors: resource.errors
       }, status: :unprocessable_entity
     end
   end
