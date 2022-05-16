@@ -32,7 +32,7 @@ class Api::V1::DeviceDataController < ApplicationController
     @device_datum = DeviceDatum.new(device_datum_params)
 
     if @device_datum.save
-      render json: @device_datum, status: :created, location: @device_datum
+      render json: @device_datum, status: :created
     else
       render json: @device_datum.errors, status: :unprocessable_entity
     end
@@ -61,7 +61,7 @@ class Api::V1::DeviceDataController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def device_datum_params
-    params.require(:device_datum).permit(:device_id, :user_id, :spo2, :heart_rate, :temperature, :ecg, :gps)
+    params.permit(:device_id, :spo2, :heart_rate, :temperature, :ecg, :gps)
   end
 
   def get_average_hourly_data(device_data_day)
