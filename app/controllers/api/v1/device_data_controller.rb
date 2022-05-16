@@ -24,7 +24,7 @@ class Api::V1::DeviceDataController < ApplicationController
 
     get_average_hourly_data(@device_data_day)
 
-    render json: @device_data
+  render json: @device_data
   end
 
   # POST /device_data
@@ -61,7 +61,7 @@ class Api::V1::DeviceDataController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def device_datum_params
-    params.require(:device_datum).permit(:device_id, :user_id, :spo2, :heart_rate, :temperature)
+    params.require(:device_datum).permit(:device_id, :user_id, :spo2, :heart_rate, :temperature, :ecg, :gps)
   end
 
   def get_average_hourly_data(device_data_day)
