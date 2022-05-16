@@ -30,7 +30,9 @@ class Api::V1::DeviceDataController < ApplicationController
   # POST /device_data
   def create
     @device_datum = DeviceDatum.new(device_datum_params)
-
+    @device_datum.ecg = params[:ecg]
+    @device_datum.gps = params[:gps]
+    
     if @device_datum.save
       render json: @device_datum, status: :created
     else

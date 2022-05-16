@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_12_210058) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_16_021727) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -70,6 +70,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_12_210058) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["device_id"], name: "index_device_data_on_device_id"
+    t.index ["ecg"], name: "index_device_data_on_ecg", using: :gin
+    t.index ["gps"], name: "index_device_data_on_gps", using: :gin
   end
 
   create_table "devices", force: :cascade do |t|
