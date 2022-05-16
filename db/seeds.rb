@@ -6,9 +6,9 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-patient = Patient.create(weight: 80, height: 180, smoking: false)
-user = User.create(first_name: 'Nicolae', last_name: 'Pop', phone: '+201000287983', gender: 'strongMale', 
-  birth_date: '28-11-1988', age: 33, address: 'somewhere', reference_id: patient.id, role: 'patient')
+patient = Patient.first_or_create(weight: 80, height: 180, smoking: false)
+user = User.first_or_create(first_name: 'Nicolae', last_name: 'Pop', phone: '+201000287983', gender: 'strongMale', 
+  birth_date: '28-11-1988', age: 33, address: 'somewhere', reference_id: patient.id, role: 'patient', email: 'test@test.com', password: 'test123', password_confirmation: 'test123')
 device_category = DeviceCategory.create(device_name: 'ECG', price: 300, device_items: 'ECG')
 device = Device.create(device_category_id: device_category.id, patient_id: patient.id)
 DeviceDatum.create(device_id: device.id, spo2: 90.0, heart_rate: 80, temperature: 37.5, created_at: "2022-05-06T21:42:40.625Z")

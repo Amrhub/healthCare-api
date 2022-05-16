@@ -6,8 +6,8 @@ Rails.application.routes.draw do
     }
 
   get "/member-data", to: "members#show"
-  # Defines the root path route ("/")
-  # root "articles#index"
+  root 'home#index'
+
   namespace :api do
     namespace :v1, defaults: { format: :json } do
       get "device_data/show_avg_hourly_data" => "device_data#show_avg_hourly_data"
