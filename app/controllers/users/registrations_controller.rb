@@ -4,6 +4,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def create
     build_resource(sign_up_params)
 
+    resource.age = calculate_age(resource)
     resource.save
     yield resource if block_given?
 
@@ -28,6 +29,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def sign_up_params
-    params.permit(:email, :password, :password_confirmation, :profile_pic)
+    params.permit(:first_name, :last_name, :phone, :gender, :address, :role,
+                  :email, :password, :password_confirmation, :profile_pic, :birth_date)
+  end
+
+  private
+
+  def calculate_age(resource)
+    (Date.today - resource.birth_date.to_date).to_i / 365
   end
 end
