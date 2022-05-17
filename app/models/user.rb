@@ -14,4 +14,6 @@ class User < ApplicationRecord
 
   # validations
   validates :profile_pic, content_type: %i[png jpg jpeg], size: { less_than: 5.megabytes }
+
+  
 end
