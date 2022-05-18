@@ -12,11 +12,14 @@ class Api::V1::UsersController < ApplicationController
   def show
     if @user.profile_pic.attached?
       render json: {
-        user: @user,
+        **@user.attributes,
         profile_pic: url_for(@user.profile_pic)
       }
     else
-      render json: @user
+      render json: {
+        **@user.attributes,
+        profile_pic: "No profile pic"
+      }
     end
   end
 

@@ -18,7 +18,17 @@ class Api::V1::DoctorsController < ApplicationController
     @doctor = Doctor.new(doctor_params)
 
     if @doctor.save
-      render json: @doctor, status: :created, location: @doctor
+      if @doctor.certificates.attached?
+        render json: {
+          **@doctor.attributes,
+          certificates: @doctor.certificates.map { |file| url_for(file) }
+        }, status: :created
+      else 
+        render json: {
+          **@doctor.attributes,
+          certificates: "No certificates"
+        }, status: :created
+      end
     else
       render json: @doctor.errors, status: :unprocessable_entity
     end

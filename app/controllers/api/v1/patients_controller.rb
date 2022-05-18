@@ -18,7 +18,7 @@ class Api::V1::PatientsController < ApplicationController
     @patient = Patient.new(patient_params)
 
     if @patient.save
-      render json: @patient, status: :created, location: @patient
+      render json: @patient.attributes, status: :created
     else
       render json: @patient.errors, status: :unprocessable_entity
     end
@@ -47,6 +47,6 @@ class Api::V1::PatientsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def patient_params
-    params.require(:patient).permit(:weight, :height, :smoking)
+    params.permit(:weight, :height, :smoking)
   end
 end
