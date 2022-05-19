@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_16_021727) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_18_221540) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -137,6 +137,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_16_021727) do
     t.boolean "covid", default: false
     t.boolean "diabetes", default: false
     t.boolean "hypertension", default: false
+    t.text "other_diseases_detail"
   end
 
   create_table "posts", force: :cascade do |t|
