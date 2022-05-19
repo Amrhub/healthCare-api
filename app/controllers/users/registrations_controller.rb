@@ -16,21 +16,24 @@ class Users::RegistrationsController < Devise::RegistrationsController
       end
       render json: {
         message: 'Signed up successfully',
-        user: resource
+        user: {
+          **resource.attributes,
+          profile_pic: resource.profile_pic.attached? ? url_for(resource.profile_pic) : 'No profile pic'
+        }
       }, status: :ok
     else
       clean_up_passwords resource
       set_minimum_password_length
       render json: {
         message: 'Failed to sign up',
-        errors: resource.errors
+        errors: resource.errors.full_messages
       }, status: :unprocessable_entity
     end
   end
 
   def sign_up_params
     params.permit(:first_name, :last_name, :phone, :gender, :address, :role,
-                  :email, :password, :password_confirmation, :profile_pic, :birth_date)
+                  :email, :password, :password_confirmation, :profile_pic, :birth_date, :reference_id, :bio)
   end
 
   private
