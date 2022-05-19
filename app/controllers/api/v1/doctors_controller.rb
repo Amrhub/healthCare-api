@@ -10,7 +10,17 @@ class Api::V1::DoctorsController < ApplicationController
 
   # GET /doctors/1
   def show
-    render json: @doctor
+    if @doctor.certificates.attached?
+      render json: {
+        **@doctor.attributes,
+        certificates: @doctor.certificates.map { |file| url_for(file) }
+      } 
+    else 
+      render json: {
+       **@doctor.attributes,
+        certificates: "No certificates"
+      }
+    end
   end
 
   # POST /doctors
@@ -57,6 +67,6 @@ class Api::V1::DoctorsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def doctor_params
-    params.permit(:specialization, :years_experience, :salary, :certificates)
+    params.permit(:specialization, :years_experience, :salary, certificates: [])
   end
 end
