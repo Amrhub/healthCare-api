@@ -27,6 +27,7 @@ module HealthCareApi
     config.session_store :cookie_store, key: "_health_care_api_session"
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use config.session_store, config.session_options
+    config.active_storage.replace_on_assign_to_many = false
 
     # Configuration for the application, engines, and railties goes here.
     #
