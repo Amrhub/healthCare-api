@@ -5,7 +5,7 @@ class MembersController < ApplicationController
     user = user_from_token
     render json: {
       message: "If you see this, you're in!",
-      user:
+      **user
     }
   end
 
@@ -16,6 +16,6 @@ class MembersController < ApplicationController
                              ENV.fetch('DEVISE_JWT_SECRET_KEY', nil))[0]
     user_id = jwt_payload['sub']
 
-    User.find(user_id.to_s)
+    user_from_id(user_id.to_s)
   end
 end

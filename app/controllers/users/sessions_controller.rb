@@ -7,7 +7,7 @@ class Users::SessionsController < Devise::SessionsController
 
     if @user.valid_password?(user_params[:password])
       sign_in :user, @user
-      render json: @user
+      render json: user_from_id(@user.id)
     else
       invalid_login_attempt
     end
@@ -26,6 +26,6 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   def user_params
-    params.require(:user).permit(:email, :password)
+    params.permit(:email, :password)
   end
 end
