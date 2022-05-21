@@ -15,5 +15,15 @@ class User < ApplicationRecord
   # validations
   validates :profile_pic, content_type: %i[png jpg jpeg], size: { less_than: 5.megabytes }
 
-  
+  validates :first_name, presence: true
+  validates :last_name, presence: true
+  validates :email, presence: true, uniqueness: true
+  validates :password, presence: true, length: { minimum: 6 }
+  validates :password_confirmation, presence: true, length: { minimum: 6 }
+  validates :phone, presence: true, length: { minimum: 10 }
+  validates :address, presence: true
+  validates :dirth_date, presence: true
+  validates :role, presence: true
+  validates :reference_id, presence: true, numericality: { only_integer: true }, uniqueness: true
+  validates :gender, presence: true
 end
