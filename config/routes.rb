@@ -22,7 +22,9 @@ Rails.application.routes.draw do
       resources :device_data
       resources :devices
       resources :device_categories
-      resources :users
+      resources :users do
+        get 'posts', to: 'users#posts'
+      end
     end
   end
 end

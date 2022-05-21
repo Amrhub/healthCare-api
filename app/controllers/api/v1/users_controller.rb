@@ -48,6 +48,11 @@ class Api::V1::UsersController < ApplicationController
     @user.destroy
   end
 
+  def posts
+    user = User.find(params[:user_id])
+    render json: user.posts
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
