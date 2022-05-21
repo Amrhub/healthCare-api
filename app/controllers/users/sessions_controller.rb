@@ -1,6 +1,4 @@
 class Users::SessionsController < Devise::SessionsController
-  respond_to :json
-
   def create
     @user = User.find_by_email(user_params[:email])
     return invalid_login_attempt unless @user
