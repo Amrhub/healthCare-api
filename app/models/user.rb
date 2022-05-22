@@ -22,7 +22,7 @@ class User < ApplicationRecord
   validates :password_confirmation, presence: true, length: { minimum: 6 }
   validates :phone, presence: true, length: { minimum: 10 }
   validates :address, presence: true
-  validates :dirth_date, presence: true
+  validates :birth_date, presence: true
   validates :role, presence: true
   validates :reference_id, presence: true, numericality: { only_integer: true }, uniqueness: true
   validates :gender, presence: true

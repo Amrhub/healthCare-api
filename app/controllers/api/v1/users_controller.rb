@@ -18,7 +18,7 @@ class Api::V1::UsersController < ApplicationController
     else
       render json: {
         **@user.attributes,
-        profile_pic: "No profile pic"
+        profile_pic: @user.profile_pic.attached? ? url_for(@user.profile_pic) : nil
       }
     end
   end

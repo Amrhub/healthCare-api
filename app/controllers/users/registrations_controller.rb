@@ -18,7 +18,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
         message: 'Signed up successfully',
         user: {
           **resource.attributes,
-          profile_pic: resource.profile_pic.attached? ? url_for(resource.profile_pic) : 'No profile pic'
+          profile_pic: resource.profile_pic.attached? ? url_for(@user.profile_pic) : nil
         }
       }, status: :ok
     else
