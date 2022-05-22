@@ -5,7 +5,7 @@ class Api::V1::PostsController < ApplicationController
   def index
     @posts = Post.all
 
-    render json: @posts
+    render json: @posts.map { |post| format_post_json(post) }
   end
 
   # GET /posts/1
@@ -18,7 +18,7 @@ class Api::V1::PostsController < ApplicationController
     @post = Post.new(post_params)
 
     if @post.save
-      render json: @post, status: :created, location: @post
+      render json: format_post_json(@post), status: :created
     else
       render json: @post.errors, status: :unprocessable_entity
     end
@@ -47,6 +47,19 @@ class Api::V1::PostsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def post_params
-    params.require(:post).permit(:content, :category, :user_id, :comments_counter, :likes_counter)
+    params.permit(:content, :category, :user_id, :comments_counter, :likes_counter)
+  end
+
+  def format_post_json(post)
+    {
+      **post.attributes.except("created_at", "updated_at", "user_id", "likes_counter", "comments_counter"),
+      likesCounter: post.likes_counter,
+      commentsCounter: post.comments_counter,
+      user: {
+        id: post.user.id,
+        name: "#{post.user.first_name} #{post.user.last_name}",
+        profilePic: post.user.profile_pic.attached? ? url_for(post.user.profile_pic) : nil
+      }
+    }
   end
 end
