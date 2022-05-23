@@ -5,7 +5,7 @@ class Api::V1::PostsController < ApplicationController
   def index
     @posts = Post.all
 
-    render json: @posts.map { |post| format_post_json(post) }
+    render json: @posts.order(created_at: :desc).map { |post| format_post_json(post) }
   end
 
   # GET /posts/1

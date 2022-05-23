@@ -3,9 +3,10 @@ class Api::V1::CommentsController < ApplicationController
 
   # GET /comments
   def index
-    @comments = Comment.all
+    @comments = Comment.all.order(created_at: :desc)
+    @comments = @comments.where(post_id: params[:post_id]) if params[:post_id]
 
-    render json: @comments
+    render json: @comments.map { |comment| format_comment_json(comment) }
   end
 
   # GET /comments/1
@@ -18,7 +19,7 @@ class Api::V1::CommentsController < ApplicationController
     @comment = Comment.new(comment_params)
 
     if @comment.save
-      render json: @comment, status: :created, location: @comment
+      render json: format_comment_json(@comment), status: :created
     else
       render json: @comment.errors, status: :unprocessable_entity
     end
@@ -38,6 +39,17 @@ class Api::V1::CommentsController < ApplicationController
     @comment.destroy
   end
 
+  def format_comment_json(comment)
+    {
+      id: comment.id,
+      content: comment.content,
+      user: {
+        name: "#{comment.user.first_name} #{comment.user.last_name}",
+        profilePic: comment.user.profile_pic.attached? ? url_for(comment.user.profile_pic) : nil
+      }
+    }
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -47,6 +59,6 @@ class Api::V1::CommentsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def comment_params
-    params.require(:comment).permit(:user_id, :post_id, :content)
+    params.permit(:user_id, :post_id, :content)
   end
 end
