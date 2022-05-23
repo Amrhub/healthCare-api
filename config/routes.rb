@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1, defaults: { format: :json } do
       get "device_data/show_avg_hourly_data" => "device_data#show_avg_hourly_data"
+      get "likes/posts_user_likes" => "likes#posts_user_likes"
       resources :observations
       resources :doctors
       resources :patients

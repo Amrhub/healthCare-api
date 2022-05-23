@@ -18,7 +18,7 @@ class Api::V1::LikesController < ApplicationController
     @like = Like.new(like_params)
 
     if @like.save
-      render json: @like, status: :created, location: @like
+      render json: format_like_json(@like), status: :created
     else
       render json: @like.errors, status: :unprocessable_entity
     end
@@ -38,6 +38,12 @@ class Api::V1::LikesController < ApplicationController
     @like.destroy
   end
 
+  def posts_user_likes
+    @user = User.find(params[:user_id])
+
+    render json: @user.likes.map { |like| format_like_json(like) }
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -47,6 +53,13 @@ class Api::V1::LikesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def like_params
-    params.require(:like).permit(:user_id, :post_id)
+    params.permit(:user_id, :post_id)
+  end
+
+  def format_like_json(like)
+    {
+      likeId: like.id,
+      postId: like.post_id,
+    }
   end
 end

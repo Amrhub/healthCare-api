@@ -5,6 +5,9 @@ class Like < ApplicationRecord
   after_save :increment_post_likes_count
   after_destroy :decrement_post_likes_count
 
+  validates :post_id, presence: true
+  validates :user_id, presence: true
+
   private
 
   def increment_post_likes_count
