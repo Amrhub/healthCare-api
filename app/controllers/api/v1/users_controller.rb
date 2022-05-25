@@ -4,6 +4,13 @@ class Api::V1::UsersController < ApplicationController
   # GET /users
   def index
     @users = User.all
+    @users = @users.map do |user|
+      {
+        id: user.id,
+        name: "#{user.first_name} #{user.last_name}",
+        profilePic: user.profile_pic.attached? ? url_for(user.profile_pic) : nil
+      }
+    end
 
     render json: @users
   end

@@ -20,6 +20,7 @@ Rails.application.routes.draw do
       resources :comments
       resources :posts
       resources :friendships
+      get "show_friendships" => "friendships#show_friendships" # ?user_id=1 takes user_id as a parameter
       resources :device_data
       resources :devices
       resources :device_categories
