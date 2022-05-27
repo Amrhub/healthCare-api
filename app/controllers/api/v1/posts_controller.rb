@@ -26,7 +26,7 @@ class Api::V1::PostsController < ApplicationController
 
   # PATCH/PUT /posts/1
   def update
-    if @post.update(post_params)
+    if @post.update(post_params.merge(age: calculate_age(params[:birth_date]) || @post.age))
       render json: @post
     else
       render json: @post.errors, status: :unprocessable_entity
@@ -38,11 +38,21 @@ class Api::V1::PostsController < ApplicationController
     @post.destroy
   end
 
+  def user_posts
+    posts = Post.where(user_id: params[:user_id]).order(created_at: :desc).limit(3)
+
+    render json: posts.map { |post| format_post_json(post) }
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
   def set_post
     @post = Post.find(params[:id])
+  end
+
+  def calculate_age(birth_date)
+    (Date.today - birth_date.to_date).to_i / 365
   end
 
   # Only allow a list of trusted parameters through.

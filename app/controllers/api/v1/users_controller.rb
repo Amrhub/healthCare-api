@@ -17,17 +17,13 @@ class Api::V1::UsersController < ApplicationController
 
   # GET /users/1
   def show
-    if @user.profile_pic.attached?
       render json: {
-        **@user.attributes,
-        profile_pic: url_for(@user.profile_pic)
+        **@user.attributes.except(:first_name),
+        firstName: @user.first_name,
+        lastName: @user.last_name,
+        birthDate: @user.birth_date,
+        profilePic: @user.profile_pic.attached? ? url_for(@user.profile_pic) : nil
       }
-    else
-      render json: {
-        **@user.attributes,
-        profile_pic: @user.profile_pic.attached? ? url_for(@user.profile_pic) : nil
-      }
-    end
   end
 
   # POST /users
@@ -44,7 +40,7 @@ class Api::V1::UsersController < ApplicationController
   # PATCH/PUT /users/1
   def update
     if @user.update(user_params)
-      render json: @user
+      render json: format_user_json(@user)
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -60,6 +56,24 @@ class Api::V1::UsersController < ApplicationController
     render json: user.posts
   end
 
+  def format_user_json(user)
+    {
+      id: user.id,
+      profilePic: user.profile_pic.attached? ? url_for(user.profile_pic) : nil,
+      firstName: user.first_name,
+      lastName: user.last_name,
+      email: user.email,
+      role: user.role,
+      referenceId: user.reference_id,
+      bio: user.bio,
+      phone: user.phone,
+      address: user.address,
+      gender: user.gender,
+      birthDate: user.birth_date,
+      age: user.age
+    }
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -70,6 +84,6 @@ class Api::V1::UsersController < ApplicationController
   # Only allow a list of trusted parameters through.
   def user_params
     params.permit(:first_name, :last_name, :phone, :gender, :birth_date,
-                  :age, :address, :profile_pic, :bio)
+                  :age, :address, :profile_pic, :bio, :password, :password_confirmation)
   end
 end

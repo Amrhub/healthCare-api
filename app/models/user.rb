@@ -1,6 +1,6 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  after_save :calculate_age_after_save
+
   devise :database_authenticatable, :registerable, :trackable,
          :recoverable, :rememberable, :validatable,
          :jwt_authenticatable, jwt_revocation_strategy: JwtDenylist
@@ -26,4 +26,8 @@ class User < ApplicationRecord
   validates :role, presence: true
   validates :reference_id, presence: true, numericality: { only_integer: true }, uniqueness: true
   validates :gender, presence: true
+
+  def calculate_age_after_save
+    self.age = (Date.today - birth_date.to_date).to_i / 365 unless age || birth_date.nil?
+  end
 end
