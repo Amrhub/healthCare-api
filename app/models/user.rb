@@ -28,6 +28,6 @@ class User < ApplicationRecord
   validates :gender, presence: true
 
   def calculate_age_after_save
-    self.age = (Date.today - birth_date.to_date).to_i / 365 unless age || birth_date.nil?
+    self.age = (Date.today - birth_date.to_date).to_i / 365 unless birth_date.nil?
   end
 end
