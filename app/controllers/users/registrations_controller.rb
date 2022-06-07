@@ -1,6 +1,4 @@
 class Users::RegistrationsController < Devise::RegistrationsController
-  respond_to :json
-
   def create
     build_resource(sign_up_params)
     resource.save
@@ -33,10 +31,4 @@ class Users::RegistrationsController < Devise::RegistrationsController
     params.permit(:first_name, :last_name, :phone, :gender, :address, :role, :age,
                   :email, :password, :password_confirmation, :profile_pic, :birth_date, :reference_id, :bio)
   end
-
-  private
-
-  # def calculate_age(resource)
-  #   (Date.today - resource.birth_date.to_date).to_i / 365
-  # end
 end
