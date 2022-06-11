@@ -50,6 +50,7 @@ class ApplicationController < ActionController::API
 
   def format_patient_data(patient)
     {
+      deviceId: patient.device&.id,
       weight: patient.weight,
       height: patient.height,
       smoking: patient.smoking,
