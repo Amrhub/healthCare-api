@@ -8,7 +8,8 @@ class Api::V1::UsersController < ApplicationController
       {
         id: user.id,
         name: "#{user.first_name} #{user.last_name}",
-        profilePic: user.profile_pic.attached? ? url_for(user.profile_pic) : nil
+        profilePic: user.profile_pic.attached? ? url_for(user.profile_pic) : nil,
+        role: user.role
       }
     end
 
