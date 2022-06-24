@@ -18,13 +18,15 @@ class Api::V1::UsersController < ApplicationController
 
   # GET /users/1
   def show
-      render json: {
-        **@user.attributes.except(:first_name),
-        firstName: @user.first_name,
-        lastName: @user.last_name,
-        birthDate: @user.birth_date,
-        profilePic: @user.profile_pic.attached? ? url_for(@user.profile_pic) : nil
-      }
+    render json: {
+      **@user.attributes.except(:first_name),
+      firstName: @user.first_name,
+      lastName: @user.last_name,
+      birthDate: @user.birth_date,
+      profilePic: @user.profile_pic.attached? ? url_for(@user.profile_pic) : nil,
+      role: @user.role,
+      referenceId: @user.reference_id
+    }
   end
 
   # POST /users
