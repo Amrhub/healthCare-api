@@ -18,15 +18,30 @@ class Api::V1::UsersController < ApplicationController
 
   # GET /users/1
   def show
-    render json: {
-      **@user.attributes.except(:first_name),
-      firstName: @user.first_name,
-      lastName: @user.last_name,
-      birthDate: @user.birth_date,
-      profilePic: @user.profile_pic.attached? ? url_for(@user.profile_pic) : nil,
-      role: @user.role,
-      referenceId: @user.reference_id
-    }
+    if @user.role == 'patient'
+      role_info = Patient.find(@user.reference_id)
+      device_id = Device.find_by(patient_id: @user.reference_id)&.id
+      render json: {
+        **@user.attributes.except(:first_name),
+        firstName: @user.first_name,
+        lastName: @user.last_name,
+        birthDate: @user.birth_date,
+        profilePic: @user.profile_pic.attached? ? url_for(@user.profile_pic) : nil,
+        role: @user.role,
+        referenceId: @user.reference_id,
+        roleInfo: { **role_info.attributes, device_id: }
+      }
+    else
+      render json: {
+        **@user.attributes.except(:first_name),
+        firstName: @user.first_name,
+        lastName: @user.last_name,
+        birthDate: @user.birth_date,
+        profilePic: @user.profile_pic.attached? ? url_for(@user.profile_pic) : nil,
+        role: @user.role,
+        referenceId: @user.reference_id
+      }
+    end
   end
 
   # POST /users
