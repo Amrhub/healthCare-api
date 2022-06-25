@@ -47,6 +47,6 @@ class Api::V1::DevicesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def device_params
-    params.require(:device).permit(:device_category_id)
+    params.permit(:device_category_id, :patient_id)
   end
 end
