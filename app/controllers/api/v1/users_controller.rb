@@ -3,7 +3,7 @@ class Api::V1::UsersController < ApplicationController
 
   # GET /users
   def index
-    @users = User.all
+    @users = User.where.not(role: 'admin')
     @users = @users.map do |user|
       {
         id: user.id,
@@ -14,6 +14,20 @@ class Api::V1::UsersController < ApplicationController
     end
 
     render json: @users
+  end
+
+  def patients_name
+    patients_name = User.where(role: 'patient').map do |user|
+      device = Device.find_by(patient_id: user.reference_id)
+      next if device
+
+      {
+        label: "#{user.first_name} #{user.last_name} (#{user.reference_id})",
+        id: user.reference_id
+      }
+    end
+
+    render json: patients_name.filter { |x| x }
   end
 
   # GET /users/1

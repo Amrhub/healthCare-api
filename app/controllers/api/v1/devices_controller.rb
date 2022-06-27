@@ -3,9 +3,9 @@ class Api::V1::DevicesController < ApplicationController
 
   # GET /devices
   def index
-    @devices = Device.all
+    @devices = Device.includes(:device_category)
 
-    render json: @devices
+    render json: @devices.map { |device| format_device(device) }
   end
 
   # GET /devices/1
@@ -18,7 +18,7 @@ class Api::V1::DevicesController < ApplicationController
     @device = Device.new(device_params)
 
     if @device.save
-      render json: @device, status: :created, location: @device
+      render json: format_device(@device), status: :created
     else
       render json: @device.errors, status: :unprocessable_entity
     end
@@ -39,6 +39,17 @@ class Api::V1::DevicesController < ApplicationController
   end
 
   private
+
+  def format_device(device)
+    user = User.find_by(reference_id: device.patient_id, role: 'patient')
+    {
+      deviceId: device.id,
+      patientId: device.patient_id,
+      patientName: "#{user.first_name} #{user.last_name}",
+      deviceCategoryId: device.device_category_id,
+      deviceCategory: device.device_category.device_name
+    }
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_device

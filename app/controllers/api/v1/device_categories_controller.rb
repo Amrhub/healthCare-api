@@ -16,6 +16,16 @@ class Api::V1::DeviceCategoriesController < ApplicationController
     render json: @device_categories
   end
 
+  def device_categories_name
+    device_categories_name = DeviceCategory.all.map do |device_category|
+      {
+        label: device_category.device_name,
+        id: device_category.id
+      }
+    end
+    render json: device_categories_name
+  end
+
   # GET /device_categories/1
   def show
     render json: @device_category

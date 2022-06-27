@@ -15,6 +15,8 @@ Rails.application.routes.draw do
       get "device_data/show_recent_ecg_data" => "device_data#show_recent_ecg_data"
       get "likes/posts_user_likes" => "likes#posts_user_likes"
       get "observations/my_consultants" => "observations#my_consultants"
+      get "patients_name" => "users#patients_name"
+      get "device_categories_name" => "device_categories#device_categories_name"
       resources :observations
       resources :doctors
       resources :patients
