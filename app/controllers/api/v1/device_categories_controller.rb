@@ -5,6 +5,14 @@ class Api::V1::DeviceCategoriesController < ApplicationController
   def index
     @device_categories = DeviceCategory.all
 
+    @device_categories = @device_categories.map do |device_category|
+      {
+        id: device_category.id,
+        name: device_category.device_name,
+        items: device_category.device_items,
+        price: device_category.price.to_f
+      }
+    end
     render json: @device_categories
   end
 
@@ -18,7 +26,12 @@ class Api::V1::DeviceCategoriesController < ApplicationController
     @device_category = DeviceCategory.new(device_category_params)
 
     if @device_category.save
-      render json: @device_category, status: :created, location: @device_category
+      render json: {
+        id: @device_category.id,
+        name: @device_category.device_name,
+        items: @device_category.device_items,
+        price: @device_category.price.to_f
+      }, status: :created
     else
       render json: @device_category.errors, status: :unprocessable_entity
     end
@@ -47,6 +60,6 @@ class Api::V1::DeviceCategoriesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def device_category_params
-    params.require(:device_category).permit(:device_name, :price, :device_items)
+    params.permit(:device_name, :price, :device_items)
   end
 end
